@@ -1,0 +1,60 @@
+
+<section class="min-vh-100 m-0 p-5" style="background-color: rgb(33, 21, 112);" *ngIf="allnotes">
+    <button mat-button mat-raised-button color="accent" class="logout  d-block ms-auto mt-3 w-md-25  me-5 px-4 "   (click)="logout()">logOut</button>
+
+<div class="">
+    <input type="search" id="mySearch" [(ngModel)]="searchword" class="form-control w-75 mx-auto" />
+    <button mat-button mat-raised-button color="accent" (click)="openDialog() " class=" d-block ms-auto mt-3 w-md-25  me-5  ">Add Note</button>
+</div>
+
+
+
+<div class="container">
+    <div class="row my-4 g-3">
+
+        <div class="col-md-3" *ngFor="let note of allnotes|search:searchword">
+
+
+            <div class="card shadow py-3" style="background-color: rgb(250, 250, 186);">
+
+                <div class="card-body">
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" class="position-absolute end-0">
+                        <mat-icon>more_vert</mat-icon>
+                      </button>
+                      <mat-menu #menu="matMenu">
+                        <button mat-menu-item  (click)="updateNote(note)">
+                          <mat-icon>update</mat-icon>
+                          <span>update</span>
+                        </button>
+                        
+                        <button mat-menu-item  [swal]="deleteSwal">
+                          <mat-icon>delete</mat-icon>
+                          <span>delete</span>
+                        </button>
+                      </mat-menu>
+                      <swal
+                      #deleteSwal
+               title="Delete {{ note.title }}?"
+                text="This cannot be undone"
+                icon="question"
+               [showCancelButton]="true"
+             [focusCancel]="true"
+             (confirm)="deletenote(note._id)">
+             <button (click)="deleteSwal.fire()">Delete {{ note.title }}</button>
+</swal>
+                    <h3>{{note.title}}</h3>
+                    <hr class="text-muted w-75">
+                    <p>{{note.content }}</p>
+                    <p>{{note._id}}</p>
+
+                </div>
+
+
+            </div>
+           
+        </div>
+    </div>
+</div>
+</section>
+
+
